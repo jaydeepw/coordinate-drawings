@@ -1,12 +1,18 @@
 package com.github.jaydeepw.myapplication
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Point
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
-import java.util.*
 
 class CoordinateView : View {
+
+    private var canvas: Canvas? = null
+    private var coordinates: List<Point>? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -16,35 +22,34 @@ class CoordinateView : View {
         defStyleAttr
     )
 
-    private fun getRandomCoordinates(): List<Point> {
-        val list = mutableListOf<Point>()
-        val startPoint = Point(5, 5)
-        for (i in 1..29) {
-            val x = startPoint.x * Random().nextInt(10) * i
-            val y = startPoint.y * Random().nextInt(10) * i
-            val point = Point(x, y)
-            list.add(point)
-        }
-        return list
-    }
-
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        this.canvas = canvas
 
-        val list = getRandomCoordinates()
-        drawCoordinates(canvas, list)
+        drawCoordinates(coordinates)
     }
 
-    private fun drawCoordinates(
-        canvas: Canvas?,
-        list: List<Point>
+    fun setCoordinates(coordinates: List<Point>) {
+        this.coordinates = coordinates
+        invalidate()
+    }
+
+    fun drawCoordinates(
+        list: List<Point>?
     ) {
+
+        if (list == null) {
+            return
+        }
+
         val radius = 10
         val paint = Paint()
         paint.color = Color.parseColor("#FF0000")
         for (point in list) {
             canvas?.drawCircle(point.x.toFloat(), point.y.toFloat(), radius.toFloat(), paint)
         }
+
+        Log.i("CustomView", "canvas $canvas")
     }
 
 }
