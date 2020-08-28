@@ -10,7 +10,9 @@ import android.view.View
 
 class CoordinateView : View {
 
+    var paint = Paint()
     private var coordinates: List<Point>? = null
+    private var lines: List<Pair<Point, Point>>? = null
     private var colors = listOf(
         "#FF0000",
         "#00FF00",
@@ -29,10 +31,45 @@ class CoordinateView : View {
         super.onDraw(canvas)
 
         drawCoordinates(canvas, coordinates)
+        drawLines(canvas, lines)
+    }
+
+    private fun drawLines(canvas: Canvas?, lines: List<Pair<Point, Point>>?) {
+        if (lines == null) {
+            return
+        }
+
+        paint.isAntiAlias = true;
+        paint.strokeWidth = 6f;
+        paint.color = Color.BLACK;
+        paint.style = Paint.Style.STROKE;
+        paint.strokeJoin = Paint.Join.ROUND;
+
+        for (line in lines) {
+            val startPoint = line.first
+            val startX = startPoint.x
+            val startY = startPoint.y
+
+            val endPoint = line.second
+            val endX = endPoint.x
+            val endY = endPoint.y
+            canvas?.drawLine(
+                startX.toFloat(),
+                startY.toFloat(),
+                endX.toFloat(),
+                endY.toFloat(),
+                paint
+            )
+        }
     }
 
     fun setCoordinates(coordinates: List<Point>) {
         this.coordinates = coordinates
+        invalidate()
+    }
+
+    fun setLines(lines: List<Pair<Point, Point>>) {
+        this.lines = lines
         invalidate()
     }
 

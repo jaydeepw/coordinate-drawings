@@ -30,12 +30,22 @@ class FirstFragment : Fragment() {
 
         buttonRefresh.setOnClickListener {
             drawRandomCoordinates()
+            drawRandomLines()
         }
     }
 
     private fun drawRandomCoordinates() {
         val list = getRandomCoordinates()
         coordinatesView.setCoordinates(list)
+    }
+
+    private fun drawRandomLines() {
+        val startPoint = Point(5, 5)
+        val endPoint = Point(50, 50)
+        val pair = Pair(startPoint, endPoint)
+        val list = mutableListOf<Pair<Point, Point>>()
+        list.add(pair)
+        coordinatesView.setLines(list)
     }
 
     private fun getRandomCoordinates(): List<Point> {
