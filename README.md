@@ -1,6 +1,9 @@
 # Coordinate-Drawings
 A simple demo of how to use canvas. This sample draws colored points at randomly generated coordinates on a canvas of a custom view
 
+# Visuals
+![coordinate-drawing](image1.png)
+
 # License
 MIT License
 
